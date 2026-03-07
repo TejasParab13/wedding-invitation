@@ -166,7 +166,7 @@ class _WeddingPageMState extends State<WeddingPageM>
 
   void _resetInactivityTimer() {
     _inactivityTimer?.cancel();
-    _inactivityTimer = Timer(const Duration(seconds: 4), _startAutoScroll);
+    _inactivityTimer = Timer(const Duration(seconds: 3), _startAutoScroll);
   }
 
   void _stopAutoScroll() {
