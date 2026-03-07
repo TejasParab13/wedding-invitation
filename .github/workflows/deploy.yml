@@ -1,0 +1,75 @@
+name: Deploy Wedding Sites
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+
+      - name: Build web app
+        run: flutter build web
+
+      # ----- Prepare Chetan's folder -----
+      - name: Create Chetans folder
+        run: mkdir -p Chetans
+
+      - name: Copy build to Chetans
+        run: cp -r build/web/* Chetans/
+
+      - name: Copy Chetan's preview image
+        run: cp link_preview_C.jpg Chetans/ || true
+
+      - name: Customize Chetans/index.html
+        run: |
+          # Update base href
+          sed -i 's|<base href="/wedding-invitation/">|<base href="/wedding-invitation/Chetans/">|' Chetans/index.html
+          # Title always "Wedding Invitation"
+          sed -i 's|<title>.*</title>|<title>Wedding Invitation</title>|' Chetans/index.html
+          # Meta description (short)
+          sed -i 's|<meta name="description" content="[^"]*"|<meta name="description" content="You are invited to the wedding ceremony of Chetan & Ravina."|' Chetans/index.html
+          # Open Graph title
+          sed -i 's|<meta property="og:title" content="[^"]*"|<meta property="og:title" content="Wedding Invitation"|' Chetans/index.html
+          # Open Graph description (short)
+          sed -i 's|<meta property="og:description" content="[^"]*"|<meta property="og:description" content="You are invited to the wedding ceremony of Chetan & Ravina."|' Chetans/index.html
+          # Open Graph image
+          sed -i 's|<meta property="og:image" content="[^"]*"|<meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Chetans/link_preview_C.jpg"|' Chetans/index.html
+          # Open Graph url
+          sed -i 's|<meta property="og:url" content="[^"]*"|<meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Chetans/"|' Chetans/index.html
+
+      # ----- Prepare Ravina's folder -----
+      - name: Create Ravinas folder
+        run: mkdir -p Ravinas
+
+      - name: Copy build to Ravinas
+        run: cp -r build/web/* Ravinas/
+
+      - name: Copy Ravina's preview image
+        run: cp link_preview_R.jpg Ravinas/ || true
+
+      - name: Customize Ravinas/index.html
+        run: |
+          sed -i 's|<base href="/wedding-invitation/">|<base href="/wedding-invitation/Ravinas/">|' Ravinas/index.html
+          sed -i 's|<title>.*</title>|<title>Wedding Invitation</title>|' Ravinas/index.html
+          sed -i 's|<meta name="description" content="[^"]*"|<meta name="description" content="You are invited to the wedding ceremony of Ravina & Chetan."|' Ravinas/index.html
+          sed -i 's|<meta property="og:title" content="[^"]*"|<meta property="og:title" content="Wedding Invitation"|' Ravinas/index.html
+          sed -i 's|<meta property="og:description" content="[^"]*"|<meta property="og:description" content="You are invited to the wedding ceremony of Ravina & Chetan."|' Ravinas/index.html
+          sed -i 's|<meta property="og:image" content="[^"]*"|<meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/link_preview_R.jpg"|' Ravinas/index.html
+          sed -i 's|<meta property="og:url" content="[^"]*"|<meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/"|' Ravinas/index.html
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add Chetans Ravinas
+          git diff --quiet && git diff --staged --quiet || git commit -m "Deploy updated wedding sites"
+          git push
