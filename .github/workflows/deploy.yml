@@ -8,7 +8,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write          # <-- Add this line
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -33,20 +33,26 @@ jobs:
 
       - name: Customize Chetans/index.html
         run: |
-          # Update base href
-          sed -i 's|<base href="/wedding-invitation/">|<base href="/wedding-invitation/Chetans/">|' Chetans/index.html
-          # Title always "Wedding Invitation"
+          echo "=== Before base href replacement ==="
+          grep '<base' Chetans/index.html || echo "No base tag found"
+          # Replace any base href with the correct one
+          sed -i 's|<base href="[^"]*"|<base href="/wedding-invitation/Chetans/"|' Chetans/index.html
+          echo "=== After base href replacement ==="
+          grep '<base' Chetans/index.html
+          # Title
           sed -i 's|<title>.*</title>|<title>Wedding Invitation</title>|' Chetans/index.html
-          # Meta description (short)
+          # Meta description
           sed -i 's|<meta name="description" content="[^"]*"|<meta name="description" content="You are invited to the wedding ceremony of Chetan & Ravina."|' Chetans/index.html
           # Open Graph title
           sed -i 's|<meta property="og:title" content="[^"]*"|<meta property="og:title" content="Wedding Invitation"|' Chetans/index.html
-          # Open Graph description (short)
+          # Open Graph description
           sed -i 's|<meta property="og:description" content="[^"]*"|<meta property="og:description" content="You are invited to the wedding ceremony of Chetan & Ravina."|' Chetans/index.html
           # Open Graph image
           sed -i 's|<meta property="og:image" content="[^"]*"|<meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Chetans/link_preview_C.jpg"|' Chetans/index.html
           # Open Graph url
           sed -i 's|<meta property="og:url" content="[^"]*"|<meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Chetans/"|' Chetans/index.html
+          echo "=== Final index.html preview (first 20 lines) ==="
+          head -20 Chetans/index.html
 
       # ----- Prepare Ravina's folder -----
       - name: Create Ravinas folder
@@ -60,13 +66,19 @@ jobs:
 
       - name: Customize Ravinas/index.html
         run: |
-          sed -i 's|<base href="/wedding-invitation/">|<base href="/wedding-invitation/Ravinas/">|' Ravinas/index.html
+          echo "=== Before base href replacement ==="
+          grep '<base' Ravinas/index.html || echo "No base tag found"
+          sed -i 's|<base href="[^"]*"|<base href="/wedding-invitation/Ravinas/"|' Ravinas/index.html
+          echo "=== After base href replacement ==="
+          grep '<base' Ravinas/index.html
           sed -i 's|<title>.*</title>|<title>Wedding Invitation</title>|' Ravinas/index.html
           sed -i 's|<meta name="description" content="[^"]*"|<meta name="description" content="You are invited to the wedding ceremony of Ravina & Chetan."|' Ravinas/index.html
           sed -i 's|<meta property="og:title" content="[^"]*"|<meta property="og:title" content="Wedding Invitation"|' Ravinas/index.html
           sed -i 's|<meta property="og:description" content="[^"]*"|<meta property="og:description" content="You are invited to the wedding ceremony of Ravina & Chetan."|' Ravinas/index.html
           sed -i 's|<meta property="og:image" content="[^"]*"|<meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/link_preview_R.jpg"|' Ravinas/index.html
           sed -i 's|<meta property="og:url" content="[^"]*"|<meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/"|' Ravinas/index.html
+          echo "=== Final index.html preview (first 20 lines) ==="
+          head -20 Ravinas/index.html
 
       - name: Commit and push changes
         run: |
