@@ -35,22 +35,27 @@ jobs:
         run: |
           echo "=== Before base href replacement ==="
           grep '<base' Chetans/index.html || echo "No base tag found"
-          # Replace any base href with the correct one
+          # Replace base href
           sed -i 's|<base href="[^"]*"|<base href="/wedding-invitation/Chetans/"|' Chetans/index.html
           echo "=== After base href replacement ==="
           grep '<base' Chetans/index.html
+
           # Title
           sed -i 's|<title>.*</title>|<title>Wedding Invitation</title>|' Chetans/index.html
+
           # Meta description
           sed -i 's|<meta name="description" content="[^"]*"|<meta name="description" content="You are invited to the wedding ceremony of Chetan & Ravina."|' Chetans/index.html
-          # Open Graph title
-          sed -i 's|<meta property="og:title" content="[^"]*"|<meta property="og:title" content="Wedding Invitation"|' Chetans/index.html
-          # Open Graph description
-          sed -i 's|<meta property="og:description" content="[^"]*"|<meta property="og:description" content="You are invited to the wedding ceremony of Chetan & Ravina."|' Chetans/index.html
-          # Open Graph image
-          sed -i 's|<meta property="og:image" content="[^"]*"|<meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Chetans/link_preview_C.jpg"|' Chetans/index.html
-          # Open Graph url
-          sed -i 's|<meta property="og:url" content="[^"]*"|<meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Chetans/"|' Chetans/index.html
+
+          # Insert Open Graph tags after <head>
+          sed -i '/<head>/a\
+          <meta property="og:title" content="Wedding Invitation" />\
+          <meta property="og:description" content="You are invited to the wedding ceremony of Chetan & Ravina." />\
+          <meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Chetans/link_preview_C.jpg" />\
+          <meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Chetans/" />\
+          <meta property="og:type" content="website" />\
+          <meta property="og:site_name" content="Wedding Invitation" />\
+          <meta name="twitter:card" content="summary_large_image" />' Chetans/index.html
+
           echo "=== Final index.html preview (first 20 lines) ==="
           head -20 Chetans/index.html
 
@@ -71,12 +76,20 @@ jobs:
           sed -i 's|<base href="[^"]*"|<base href="/wedding-invitation/Ravinas/"|' Ravinas/index.html
           echo "=== After base href replacement ==="
           grep '<base' Ravinas/index.html
+
           sed -i 's|<title>.*</title>|<title>Wedding Invitation</title>|' Ravinas/index.html
           sed -i 's|<meta name="description" content="[^"]*"|<meta name="description" content="You are invited to the wedding ceremony of Ravina & Chetan."|' Ravinas/index.html
-          sed -i 's|<meta property="og:title" content="[^"]*"|<meta property="og:title" content="Wedding Invitation"|' Ravinas/index.html
-          sed -i 's|<meta property="og:description" content="[^"]*"|<meta property="og:description" content="You are invited to the wedding ceremony of Ravina & Chetan."|' Ravinas/index.html
-          sed -i 's|<meta property="og:image" content="[^"]*"|<meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/link_preview_R.jpg"|' Ravinas/index.html
-          sed -i 's|<meta property="og:url" content="[^"]*"|<meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/"|' Ravinas/index.html
+
+          # Insert Open Graph tags after <head>
+          sed -i '/<head>/a\
+          <meta property="og:title" content="Wedding Invitation" />\
+          <meta property="og:description" content="You are invited to the wedding ceremony of Ravina & Chetan." />\
+          <meta property="og:image" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/link_preview_R.jpg" />\
+          <meta property="og:url" content="https://tejasparab13.github.io/wedding-invitation/Ravinas/" />\
+          <meta property="og:type" content="website" />\
+          <meta property="og:site_name" content="Wedding Invitation" />\
+          <meta name="twitter:card" content="summary_large_image" />' Ravinas/index.html
+
           echo "=== Final index.html preview (first 20 lines) ==="
           head -20 Ravinas/index.html
 
