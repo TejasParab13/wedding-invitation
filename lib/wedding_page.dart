@@ -1,4 +1,5 @@
 // wedding_page.dart
+import 'dart:html' as html; // <-- ADD THIS IMPORT
 import 'package:flutter/material.dart';
 import 'falling_petals.dart';
 import 'wedding_animation.dart';
@@ -24,6 +25,10 @@ class _WeddingPageState extends State<WeddingPage>
       vsync: this,
       onLoadedChanged: () {
         if (mounted) setState(() {});
+        // 🎯 Remove the HTML spinner once assets are fully loaded
+        if (_controller.loaded) {
+          html.document.getElementById('initial-loader')?.remove();
+        }
       },
     );
 
