@@ -61616,8 +61616,13 @@ k=t.E
 k=A.k4(B.aV,A.d([B.F5,new A.hC(new A.rr(m,i),i),A.anf(0,new A.cS(new A.a6l(j),new A.EQ(h,B.vR,new A.A7(B.aY,B.bB,B.ec,B.bl,i,B.ih,i,0,A.d([l,new A.BO(r,i),B.H8,new A.Bq(r,i),A.fP(i,n?300:275,i)],k),i),i),i,t.Bf)),A.rN(new A.Au(r,i),!0,i)],k),B.b8)
 return new A.up(A.anS(new A.fO(s.a,s.b,new A.q6(q,p,o,k,i),i),!0),i)}}
 A.a6o.prototype={
-$0(){var s=this.a
-if(s.c!=null)s.aJ(new A.a6n())},
+$0(){var s,r=this.a
+if(r.c!=null)r.aJ(new A.a6n())
+r=r.d
+r===$&&A.a()
+if(r.z){r=document.getElementById("initial-loader")
+if(r!=null){s=r.parentNode
+if(s!=null)s.removeChild(r).toString}}},
 $S:0}
 A.a6n.prototype={
 $0(){},
