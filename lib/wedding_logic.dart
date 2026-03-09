@@ -93,8 +93,8 @@ class WeddingController {
 
     autoScrollController = AnimationController(
       vsync: _vsync,
-      duration: const Duration(seconds: 20),
-      reverseDuration: const Duration(seconds: 20),
+      duration: const Duration(seconds: 10),
+      reverseDuration: const Duration(seconds: 10),
     );
 
     curvedAutoScroll = CurvedAnimation(
@@ -116,7 +116,7 @@ class WeddingController {
 
   void resetInactivityTimer() {
     inactivityTimer?.cancel();
-    inactivityTimer = Timer(const Duration(seconds: 3), startAutoScroll);
+    inactivityTimer = Timer(const Duration(seconds: 2), startAutoScroll);
   }
 
   void stopAutoScroll() {

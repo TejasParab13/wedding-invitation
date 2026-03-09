@@ -74,6 +74,7 @@ class _WeddingPageState extends State<WeddingPage>
                     density: device == DeviceType.mobile ? 1 : 2,
                   ),
                 ),
+
                 Positioned.fill(
                   child: NotificationListener<ScrollNotification>(
                     onNotification: (notification) {
@@ -91,10 +92,10 @@ class _WeddingPageState extends State<WeddingPage>
                       child: Column(
                         children: [
                           SizedBox(
-                            height: device == DeviceType.mobile ? 150 : 200,
+                            height: device == DeviceType.mobile ? 100 : 150,
                           ),
                           InviteText(deviceType: device),
-                          const SizedBox(height: 50),
+                          const SizedBox(height: 10),
                           GlassButton(deviceType: device),
                           SizedBox(
                             height: device == DeviceType.mobile ? 300 : 275,
